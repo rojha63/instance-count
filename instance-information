@@ -1,0 +1,20 @@
+import boto3
+import glob
+import os
+
+# A tool for retrieving basic information from the running EC2 instances. 
+ec2 = boto3.resource('ec2')
+#Calling the functions
+Get_Detail()
+
+
+def get_detail():
+reservations = conn.get_all_instances()
+for res in reservations:
+    for inst in res.instances:
+        if 'Name' in inst.tags:
+		    data=[str(inst.tags['Name']),str(inst.id), str(inst.id), str(inst.instance_type), str(inst.state), str(inst.private_ip_address), str(inst.launch_time), str(inst.subnet_id), str(inst.vpc_id)]
+			csvwriter.writerow(data)
+            print "%s  %s  %s  %s  %s  %s  %s %s " % (inst.tags['Name'], inst.id, inst.instance_type, inst.state, inst.private_ip_address, inst.launch_time, inst.subnet_id, inst.vpc_id)
+        else:
+            print "%s [%s]" % (inst.id, inst.state)
